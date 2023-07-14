@@ -32,16 +32,10 @@ class Credentials(BaseModel):
 @app.get("/")
 
 async def root():
-    return {"message": "Hello World. Welcome to FastAPI!"}
+    return {
+        'message': 'Acesse a página /docs'
+    }
 
-
-@app.get("/homepage")
-async def demo_get():
-    driver=createDriver()
-
-    homepage = getGoogleHomepage(driver)
-    driver.close()
-    return homepage
 
 @app.post('/login')
 def get_user(credentials: Credentials):
@@ -49,12 +43,4 @@ def get_user(credentials: Credentials):
     user = extract.get_user(driver, credentials.username, credentials.password)
     driver.quit()
     return user
-
-@app.post("/backgroundDemo")
-async def demo_post(inp: Msg, background_tasks: BackgroundTasks):
     
-    background_tasks.add_task(doBackgroundTask, inp)
-    return {"message": "Success, background task started"}
-    
-
-

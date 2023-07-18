@@ -68,6 +68,12 @@ def validate_header(request: Request):
     return True, ""
 
 
+@app.get('/authz-server/oauth/token')
+def get_units():
+    response = {"access_token":"f80a45c9-7c01-4afb-b387-81517c478430","token_type":"bearer","expires_in":5629071,"scope":"read"}
+    return response
+
+
 @app.get('/unidade/v1/unidades')
 def get_units(request: Request):
     ok, message = validate_header(request)

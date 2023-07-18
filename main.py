@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Form, Depends
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from extract import *
@@ -28,11 +28,29 @@ class Msg(BaseModel):
     secret: str
 
 class Credentials(BaseModel):
-    username: str
-    password: str
+    client_id: str
+    client_secret: str
+    grant_type: str
+
+
+def form_body(cls):
+    cls.__signature__ = cls.__signature__.replace(
+        parameters=[
+            arg.replace(default=Form(...))
+            for arg in cls.__signature__.parameters.values()
+        ]
+    )
+    return cls
+
+
+@form_body
+class Item(BaseModel):
+    client_id: str
+    client_secret: str
+    grant_type: str
+    
 
 @app.get("/")
-
 async def root():
     return {
         'message': 'Acesse a página /docs'
@@ -68,8 +86,12 @@ def validate_header(request: Request):
     return True, ""
 
 
-@app.get('/authz-server/oauth/token')
-def get_units():
+@app.post('/authz-server/oauth/token')
+def get_units(item: Item = Depends(Item)):
+
+    if item.client_id != "piape-vania-id" or item.client_secret != "segredo" or item.grant_type != "client_credentials":
+        raise HTTPException(status_code=401, detail="Bad Credentials")
+
     response = {"access_token":"f80a45c9-7c01-4afb-b387-81517c478430","token_type":"bearer","expires_in":5629071,"scope":"read"}
     return response
 

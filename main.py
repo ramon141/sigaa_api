@@ -78,7 +78,7 @@ def get_units():
 def get_units(request: Request):
     ok, message = validate_header(request)
     if not ok:
-        raise HTTPException(status_code=400, detail=message)
+        raise HTTPException(status_code=401, detail=message)
 
     with open('contents/unities.json') as json_file:
         data = json.load(json_file)
@@ -89,7 +89,7 @@ def get_units(request: Request):
 def get_teachers(request: Request):
     ok, message = validate_header(request)
     if not ok:
-        raise HTTPException(status_code=400, detail=message)
+        raise HTTPException(status_code=401, detail=message)
     
     with open('contents/teachers.json') as json_file:
         data = json.load(json_file)
@@ -99,7 +99,7 @@ def get_teachers(request: Request):
 def get_courses(request: Request):
     ok, message = validate_header(request)
     if not ok:
-        raise HTTPException(status_code=400, detail=message)
+        raise HTTPException(status_code=401, detail=message)
     with open('contents/courses.json') as json_file:
         data = json.load(json_file)
         return data
@@ -108,7 +108,7 @@ def get_courses(request: Request):
 def get_turmas(request: Request):
     ok, message = validate_header(request)
     if not ok:
-        raise HTTPException(status_code=400, detail=message)
+        raise HTTPException(status_code=401, detail=message)
     with open('contents/turmas.json') as json_file:
         data = json.load(json_file)
         return data
@@ -117,7 +117,7 @@ def get_turmas(request: Request):
 def get_componentes_curriculares(request: Request):
     ok, message = validate_header(request)
     if not ok:
-        raise HTTPException(status_code=400, detail=message)
+        raise HTTPException(status_code=401, detail=message)
     with open('contents/componentes_curriculares.json') as json_file:
         data = json.load(json_file)
         return data

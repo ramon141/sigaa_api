@@ -19,6 +19,29 @@ departamentos = [
     'CAMPUS ORIXIMINÁ'
 ]
 
+disciplinas_universitarias = [
+    "Cálculo",
+    "História da Arte",
+    "Biologia Molecular",
+    "Economia",
+    "Psicologia",
+    "Física",
+    "Programação de Computadores",
+    "Literatura Mundial",
+    "Química Orgânica",
+    "Marketing",
+    "Anatomia Humana",
+    "Sociologia",
+    "Direito Constitucional",
+    "Línguas Estrangeiras",
+    "Filosofia",
+    "Administração Financeira",
+    "Ecologia",
+    "Engenharia de Software",
+    "Antropologia",
+    "Comunicação Social",
+]
+
 disciplinas = []
 
 for i in range(1, 21):
@@ -28,7 +51,7 @@ for i in range(1, 21):
         'id-componente': i,
         'codigo': ''.join([random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for _ in range(1)]) +
                   ''.join([random.choice('0123456789') for _ in range(6)]),
-        'nome': fake.word(),
+        'nome': disciplinas_universitarias[i - 1],
         'disciplina-obrigatoria': fake.boolean(),
         'semestre-oferta': fake.random_int(1, 10),
         'id-tipo-componente': fake.random_int(1, 5),

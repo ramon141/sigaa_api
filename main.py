@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Request, HTTPException, Form, Depends
-from pydantic import BaseModel
+from fastapi import FastAPI, Query, Request, HTTPException, Form, Depends
+from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
 from extract import *
 import os
-from typing import Annotated
+from typing import List
 import extract
 import json
 
@@ -145,14 +145,20 @@ def get_componentes_curriculares(request: Request):
         return data
     
 @app.get('/usuario/v1/usuarios')
-def get_componentes_curriculares(request: Request, login: str = None, ):
+def get_componentes_curriculares(request: Request, login: str = None, id_institucional: List[int] = Query(None, alias='id-institucional')):
     ok, message = validate_header(request)
     if not ok:
         raise HTTPException(status_code=401, detail=message)
+    
     with open('contents/usuarios.json') as json_file:
-        data = json.load(json_file)
-        response = [p for p in data if p["login"] == login]
-        return response
+        response = json.load(json_file)
 
+        if login is not None:
+            response = [p for p in response if p["login"] == login]
+
+        if id_institucional:
+            response = [p for p in response if p["id-institucional"] in id_institucional]
+
+        return response
 
     

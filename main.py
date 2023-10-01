@@ -74,7 +74,7 @@ def validate_header(request: Request):
     if not token.startswith("Bearer "):
         return False, "Token must start with Bearer"
     
-    if token != 'Bearer f80a45c9-7c01-4afb-b387-81517c478430':
+    if token != 'Bearer 7de913d7-1e3b-4eef-bd17-889fb39611e4':
         return False, "Token invalid"
 
 
@@ -92,7 +92,7 @@ def get_units(item: Item = Depends(Item)):
     if item.client_id != "piape-vania-id" or item.client_secret != "segredo" or item.grant_type != "client_credentials":
         raise HTTPException(status_code=401, detail="Bad Credentials")
 
-    response = {"access_token":"f80a45c9-7c01-4afb-b387-81517c478430","token_type":"bearer","expires_in":5629071,"scope":"read"}
+    response = {"access_token":"7de913d7-1e3b-4eef-bd17-889fb39611e4","token_type":"bearer","expires_in":5629071,"scope":"read"}
     return response
 
 
@@ -143,4 +143,16 @@ def get_componentes_curriculares(request: Request):
     with open('contents/componentes_curriculares.json') as json_file:
         data = json.load(json_file)
         return data
+    
+@app.get('/usuario/v1/usuarios')
+def get_componentes_curriculares(request: Request, login: str = None, ):
+    ok, message = validate_header(request)
+    if not ok:
+        raise HTTPException(status_code=401, detail=message)
+    with open('contents/usuarios.json') as json_file:
+        data = json.load(json_file)
+        response = [p for p in data if p["login"] == login]
+        return response
+
+
     
